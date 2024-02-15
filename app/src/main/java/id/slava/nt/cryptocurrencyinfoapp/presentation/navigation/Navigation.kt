@@ -24,7 +24,6 @@ fun Navigation() {
                 navController = navController)
         }
         composable(
-//            route = Screen.CoinDetailScreen.route + "?{${Constants.PARAM_COIN_ID}}={${Constants.PARAM_COIN_ID}}",
             route = Screen.CoinDetailScreen.route + "?${Constants.PARAM_COIN_ID}={${Constants.PARAM_COIN_ID}}",
             arguments = listOf(
                 navArgument(

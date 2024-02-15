@@ -7,9 +7,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.slava.nt.cryptocurrencyinfoapp.common.Resource
 import id.slava.nt.cryptocurrencyinfoapp.domain.use_case.CoinUseCases
-import kotlinx.coroutines.flow.forEach
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,31 +18,38 @@ class CoinsListViewModel @Inject constructor(
 ): ViewModel() {
 
 
+    //if your state is only being observed and modified within the Composables, using MutableState<T> as you've done is perfectly fine.
+    // If you foresee a need for more complex state management or sharing state across different parts of your app, consider using StateFlow<T>.
     private val _state = mutableStateOf(CoinListState())
     val state: State<CoinListState> = _state
+
+    private val _stateFlow = MutableStateFlow(CoinListState())
+    val stateFlow: StateFlow<CoinListState> = _stateFlow
 
     init {
         getCoins()
     }
 
     private fun getCoins() {
-
-        useCases.getCoins().onEach { result ->
-            when (result) {
-                is Resource.Success -> {
-                    _state.value = CoinListState(coins = result.data ?: emptyList())
-                }
-                is Resource.Error -> {
-                    _state.value = CoinListState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
-                }
-                is Resource.Loading -> {
-                    _state.value = CoinListState(isLoading = true)
+        viewModelScope.launch {
+            useCases.getCoins().collect { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _stateFlow.value = CoinListState(coins = result.data ?: emptyList())
+                    }
+                    is Resource.Error -> {
+                        _stateFlow.value = CoinListState(
+                            error = result.message ?: "An unexpected error occurred"
+                        )
+                    }
+                    is Resource.Loading -> {
+                        _stateFlow.value = CoinListState(isLoading = true)
+                    }
                 }
             }
-        }.launchIn(viewModelScope)
+        }
     }
+
 
 
 }

@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,7 +31,10 @@ fun CoinListScreen(
     navController: NavController
 ){
 
+    //if your state is only being observed and modified within the Composables, using MutableState<T> is perfectly fine.
+    // If you foresee a need for more complex state management or sharing state across different parts of your app, consider using StateFlow<T>.
     val state = viewModel.state.value
+    val stateFlow = viewModel.stateFlow.collectAsState().value
     val context = LocalContext.current
 
     Scaffold(
@@ -42,7 +46,7 @@ fun CoinListScreen(
         Box(modifier = Modifier.fillMaxSize()) {
             // LazyColumn for your list
             LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
-                items(items = state.coins) { coin ->
+                items(items = stateFlow.coins) { coin ->
                     CoinItemCard(coin = coin, onCoinItemSelected = { coinNav ->
                         // arguments saved in savedHandleState
                         navController.navigate(
@@ -54,9 +58,9 @@ fun CoinListScreen(
             }
 
             // Error message
-            if (state.error.isNotBlank()) {
+            if (stateFlow.error.isNotBlank()) {
                 Text(
-                    text = state.error,
+                    text = stateFlow.error,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -67,7 +71,7 @@ fun CoinListScreen(
             }
 
             // Loading indicator
-            if (state.isLoading) {
+            if (stateFlow.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
         }

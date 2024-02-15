@@ -9,8 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.slava.nt.cryptocurrencyinfoapp.common.Constants
 import id.slava.nt.cryptocurrencyinfoapp.common.Resource
 import id.slava.nt.cryptocurrencyinfoapp.domain.use_case.CoinUseCases
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,18 +22,16 @@ class CoinDetailViewModel @Inject constructor(
     private val _state = mutableStateOf(CoinState())
     val state: State<CoinState> = _state
 
-    private val _stateID = mutableStateOf(String())
-    val stateID: State<String> = _stateID
-
     init {
         savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { id ->
             getCoin(id)
-            _stateID.value = id
         }
     }
 
     private fun getCoin(coinId: String) {
-            useCases.getCoinById(coinId).onEach { result ->
+
+        viewModelScope.launch {
+            useCases.getCoinById(coinId).collect { result ->
                 when (result) {
                     is Resource.Success -> {
                         _state.value = CoinState(coin = result.data)
@@ -48,7 +45,8 @@ class CoinDetailViewModel @Inject constructor(
                         _state.value = CoinState(isLoading = true)
                     }
                 }
-            }.launchIn(viewModelScope)
+            }
+        }
     }
 
 }
