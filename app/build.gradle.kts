@@ -5,6 +5,7 @@ plugins {
 //    id ("org.jetbrains.kotlin.plugin.serialization")
     id ("dagger.hilt.android.plugin")
     kotlin("kapt")
+    id("io.realm.kotlin")
 }
 
 android {
@@ -84,5 +85,9 @@ dependencies {
 //    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
     kapt ("androidx.hilt:hilt-compiler:1.1.0")
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0-rc01")
+
+    // Realm db
+    implementation("io.realm.kotlin:library-base:1.11.0")
+
 
 }

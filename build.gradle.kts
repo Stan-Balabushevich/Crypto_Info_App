@@ -13,6 +13,7 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.22" apply false
     // for ktor serialization
 //    id ("org.jetbrains.kotlin.plugin.serialization") version "1.9.22" apply false
+    id("io.realm.kotlin") version "1.11.0" apply false
 
 }
 

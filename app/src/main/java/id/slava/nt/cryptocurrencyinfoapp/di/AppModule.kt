@@ -5,10 +5,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.slava.nt.cryptocurrencyinfoapp.common.Constants
-import id.slava.nt.cryptocurrencyinfoapp.data.local.RealmDB
+import id.slava.nt.cryptocurrencyinfoapp.domain.database.CoinDatabase
+import id.slava.nt.cryptocurrencyinfoapp.data.local.RealmCoinDatabaseImpl
+import id.slava.nt.cryptocurrencyinfoapp.data.local.data_base_object.CoinEntity
 import id.slava.nt.cryptocurrencyinfoapp.data.remote.CoinPaprikaApi
 import id.slava.nt.cryptocurrencyinfoapp.data.repository.CoinRepositoryImpl
 import id.slava.nt.cryptocurrencyinfoapp.domain.repository.CoinRepository
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -28,28 +32,41 @@ object AppModule {
             .create(CoinPaprikaApi::class.java)
     }
 
-
-    //TODO Create Realm Database singleton instance
-
 //    @Provides
 //    @Singleton
-//    fun provideLocalDb(): RealmDB {
-//        return
+//    fun provideRealm(
+//        @ApplicationContext context: Context
+//    ): Realm {
+//        val realmConfig = RealmConfiguration.create(
+//            schema = setOf(
+//                CoinEntity::class,
+//            )
+//        )
+//        return Realm.open(realmConfig)
 //    }
 
+    @Provides
+    @Singleton
+    fun provideRealm(): Realm = Realm.open(
+        configuration = RealmConfiguration.create(
+            schema = setOf(
+                CoinEntity::class
+            )
+        )
+    )
+
+    @Provides
+    @Singleton
+    fun provideCoinDatabase(realm: Realm): CoinDatabase {
+        return RealmCoinDatabaseImpl(realm)
+    }
 
     @Provides
     @Singleton
     fun provideCoinRepository(api: CoinPaprikaApi,
-//                              localDb: RealmDB
+                              database: CoinDatabase
                     ): CoinRepository {
-        return CoinRepositoryImpl(api,
-//            localDb
-        )
+        return CoinRepositoryImpl(api, database)
     }
-
-
-
-
 
 }

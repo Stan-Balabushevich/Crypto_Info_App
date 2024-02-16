@@ -1,6 +1,7 @@
 package id.slava.nt.cryptocurrencyinfoapp.data.remote.data_transfer_object
 
 import com.google.gson.annotations.SerializedName
+import id.slava.nt.cryptocurrencyinfoapp.data.local.data_base_object.CoinEntity
 import id.slava.nt.cryptocurrencyinfoapp.domain.model.Coin
 
 
@@ -29,4 +30,16 @@ fun CoinDto.toCoin(): Coin {
         rank = rank,
         symbol = symbol
     )
+}
+
+fun CoinDto.toCoinEntity(): CoinEntity {
+    return CoinEntity().apply {
+        id = this@toCoinEntity.id
+        isActive = this@toCoinEntity.isActive
+        isNew = this@toCoinEntity.isNew
+        name = this@toCoinEntity.name
+        rank = this@toCoinEntity.rank
+        symbol = this@toCoinEntity.symbol
+        type = this@toCoinEntity.type
+    }
 }

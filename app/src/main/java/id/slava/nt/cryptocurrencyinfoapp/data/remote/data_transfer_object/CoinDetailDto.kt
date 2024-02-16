@@ -2,7 +2,11 @@ package id.slava.nt.cryptocurrencyinfoapp.data.remote.data_transfer_object
 
 
 import com.google.gson.annotations.SerializedName
+import id.slava.nt.cryptocurrencyinfoapp.data.local.data_base_object.CoinDetailEntity
+import id.slava.nt.cryptocurrencyinfoapp.data.local.data_base_object.CoinEntity
 import id.slava.nt.cryptocurrencyinfoapp.domain.model.CoinDetail
+import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.ext.toRealmList
 
 data class CoinDetailDto(
     @SerializedName("description")
@@ -66,4 +70,17 @@ fun CoinDetailDto.toCoinDetail(): CoinDetail {
         tags = tags.map { it.name },
         team = team
     )
+}
+
+fun CoinDetailDto.toCoinDetailEntity(): CoinDetailEntity {
+    return CoinDetailEntity().apply {
+        coinId = this@toCoinDetailEntity.id
+        name = this@toCoinDetailEntity.name
+        description = this@toCoinDetailEntity.description
+        symbol = this@toCoinDetailEntity.symbol
+        rank = this@toCoinDetailEntity.rank
+        isActive = this@toCoinDetailEntity.isActive
+        tags = this@toCoinDetailEntity.tags.map { it.name }.toRealmList()
+        team = this@toCoinDetailEntity.team.map { it.toTeamMemberEntity() }.toRealmList()
+    }
 }
