@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.slava.nt.cryptocurrencyinfoapp.common.Resource
 import id.slava.nt.cryptocurrencyinfoapp.domain.use_case.CoinUseCases
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -27,6 +28,10 @@ class CoinsListViewModel @Inject constructor(
     val stateFlow: StateFlow<CoinListState> = _stateFlow
 
     init {
+        viewModelScope.launch(Dispatchers.IO) {
+            useCases.saveCoinsLocal()
+        }
+
         getCoins()
     }
 

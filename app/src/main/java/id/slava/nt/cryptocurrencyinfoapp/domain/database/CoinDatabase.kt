@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoinDatabase {
 
-    fun getCoins(): Flow<List<CoinEntity>>
+    suspend fun getCoins(): Flow<List<CoinEntity>>
 
     suspend fun saveCoins(coins: List<CoinEntity>)
 

@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class RealmCoinDatabaseImpl @Inject constructor(private val realm: Realm) : CoinDatabase {
 
-    override fun getCoins(): Flow<List<CoinEntity>> {
+    override suspend fun getCoins(): Flow<List<CoinEntity>> {
         return  realm
             .query<CoinEntity>()
             .asFlow()
