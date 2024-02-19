@@ -5,5 +5,6 @@ import javax.inject.Inject
 data class CoinUseCases @Inject constructor(
     val getCoins: GetCoinsUseCase,
     val getCoinById: GetCoinByIdUseCase,
-    val saveCoinsLocal: SaveCoinsLocalUseCase
+    val saveCoinsLocal: SaveCoinsLocalUseCase,
+    val getCoinsDb: GetCoinsDbUseCase
 )

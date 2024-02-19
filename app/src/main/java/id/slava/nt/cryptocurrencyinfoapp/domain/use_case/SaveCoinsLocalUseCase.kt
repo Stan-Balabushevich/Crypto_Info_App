@@ -6,7 +6,7 @@ import javax.inject.Inject
 class SaveCoinsLocalUseCase @Inject constructor(private val coinRepository: CoinRepository) {
 
     suspend operator fun invoke(){
-        coinRepository.saveCoinsLocal()
+        coinRepository.saveCoinsLocally()
     }
 
 }

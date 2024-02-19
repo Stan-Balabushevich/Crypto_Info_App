@@ -9,6 +9,4 @@ interface CoinDatabase {
 
     suspend fun saveCoins(coins: List<CoinEntity>)
 
-//    suspend fun getCoinById(coinId: String): CoinDetailDto
-
 }

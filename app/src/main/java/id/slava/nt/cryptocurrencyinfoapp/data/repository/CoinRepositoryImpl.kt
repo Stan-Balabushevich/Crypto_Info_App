@@ -12,6 +12,7 @@ import id.slava.nt.cryptocurrencyinfoapp.data.remote.data_transfer_object.toCoin
 import id.slava.nt.cryptocurrencyinfoapp.domain.model.Coin
 import id.slava.nt.cryptocurrencyinfoapp.domain.model.CoinDetail
 import id.slava.nt.cryptocurrencyinfoapp.domain.repository.CoinRepository
+import io.realm.kotlin.internal.util.Exceptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
@@ -31,13 +32,13 @@ class CoinRepositoryImpl @Inject constructor(private val api: CoinPaprikaApi,
     private suspend fun getCoinsFromDB(): Flow<List<Coin>> {
         return  database.getCoins()
             .map { flowCoins -> flowCoins.map { it.toCoin() }}
-            .flowOn(Dispatchers.IO)
+//            .flowOn(Dispatchers.IO)
     }
 
     private suspend fun saveCoinsToDB(coins: List<CoinDto>) {
         database.saveCoins(coins.map { it.toCoinEntity() })
     }
-    override suspend fun saveCoinsLocal() {
+    override suspend fun saveCoinsLocally() {
         try {
             val coinDtoList = api.getCoins()
             saveCoinsToDB(coinDtoList)
@@ -51,7 +52,9 @@ class CoinRepositoryImpl @Inject constructor(private val api: CoinPaprikaApi,
         try {
             emit(Resource.Loading())
 
-            val localData = getCoinsFromDB().first()
+            val localData = withContext(Dispatchers.IO){
+                getCoinsFromDB().first()
+            }
 
             if (localData.isNotEmpty()){
                 emit(Resource.Success(localData))
@@ -62,10 +65,6 @@ class CoinRepositoryImpl @Inject constructor(private val api: CoinPaprikaApi,
                 emit(Resource.Success(remoteData))
             }
 
-            // Emit Resource.Success with a Flow of coins from the database
-            // This will emit updates whenever the data in the database changes
-//            emitAll(getCoinsFromDB().map { Resource.Success(it) })
-
         } catch(e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
         } catch(e: IOException) {
@@ -73,7 +72,18 @@ class CoinRepositoryImpl @Inject constructor(private val api: CoinPaprikaApi,
         }
     }
 
-
+    override suspend fun getCoinsDB(): Flow<Resource<List<Coin>>>  = flow {
+        emit(Resource.Loading())
+        try {
+            // Emit Resource.Success with a Flow of coins from the database
+            // This will emit updates whenever the data in the database changes
+            emitAll(getCoinsFromDB()
+                .map { Resource.Success(it) }
+                .flowOn(Dispatchers.IO))
+        } catch (e: Exception){
+            emit(Resource.Error("Couldn't get data from DB."))
+        }
+    }
 
     override suspend fun getCoinById(coinId: String): Flow<Resource<CoinDetail>> = flow {
         try {

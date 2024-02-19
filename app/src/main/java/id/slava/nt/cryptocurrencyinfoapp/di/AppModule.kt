@@ -32,19 +32,6 @@ object AppModule {
             .create(CoinPaprikaApi::class.java)
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideRealm(
-//        @ApplicationContext context: Context
-//    ): Realm {
-//        val realmConfig = RealmConfiguration.create(
-//            schema = setOf(
-//                CoinEntity::class,
-//            )
-//        )
-//        return Realm.open(realmConfig)
-//    }
-
     @Provides
     @Singleton
     fun provideRealm(): Realm = Realm.open(
