@@ -1,6 +1,6 @@
 package id.slava.nt.cryptocurrencyinfoapp.domain.model
 
-import id.slava.nt.cryptocurrencyinfoapp.data.remote.data_transfer_object.TeamMember
+import id.slava.nt.cryptocurrencyinfoapp.data.remote.retrofit.data_transfer_object.TeamMember
 
 data class CoinDetail(
     val coinId: String,

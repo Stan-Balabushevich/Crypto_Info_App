@@ -1,7 +1,7 @@
-package id.slava.nt.cryptocurrencyinfoapp.data.remote
+package id.slava.nt.cryptocurrencyinfoapp.data.remote.retrofit
 
-import id.slava.nt.cryptocurrencyinfoapp.data.remote.data_transfer_object.CoinDetailDto
-import id.slava.nt.cryptocurrencyinfoapp.data.remote.data_transfer_object.CoinDto
+import id.slava.nt.cryptocurrencyinfoapp.data.remote.retrofit.data_transfer_object.CoinDetailDto
+import id.slava.nt.cryptocurrencyinfoapp.data.remote.retrofit.data_transfer_object.CoinDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 

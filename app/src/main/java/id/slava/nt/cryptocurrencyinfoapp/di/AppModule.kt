@@ -5,12 +5,16 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.slava.nt.cryptocurrencyinfoapp.common.Constants
-import id.slava.nt.cryptocurrencyinfoapp.domain.database.CoinDatabase
 import id.slava.nt.cryptocurrencyinfoapp.data.local.RealmCoinDatabaseImpl
 import id.slava.nt.cryptocurrencyinfoapp.data.local.data_base_object.CoinEntity
-import id.slava.nt.cryptocurrencyinfoapp.data.remote.CoinPaprikaApi
+import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.CoinKtorApi
+import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.CoinKtorImpl
+import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.httpClientAndroid
+import id.slava.nt.cryptocurrencyinfoapp.data.remote.retrofit.CoinPaprikaApi
 import id.slava.nt.cryptocurrencyinfoapp.data.repository.CoinRepositoryImpl
+import id.slava.nt.cryptocurrencyinfoapp.domain.database.CoinDatabase
 import id.slava.nt.cryptocurrencyinfoapp.domain.repository.CoinRepository
+import io.ktor.client.HttpClient
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import retrofit2.Retrofit
@@ -32,6 +36,15 @@ object AppModule {
             .create(CoinPaprikaApi::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideHttpClient():HttpClient = httpClientAndroid
+
+    @Singleton
+    @Provides
+    fun provideKtorApiService(httpClient: HttpClient):CoinKtorApi = CoinKtorImpl(httpClient)
+
+
     @Provides
     @Singleton
     fun provideRealm(): Realm = Realm.open(
@@ -51,9 +64,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideCoinRepository(api: CoinPaprikaApi,
-                              database: CoinDatabase
+                              database: CoinDatabase,
+                              ktorClient:  CoinKtorApi
                     ): CoinRepository {
-        return CoinRepositoryImpl(api, database)
+        return CoinRepositoryImpl(api, database, ktorClient)
     }
 
 }

@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import id.slava.nt.cryptocurrencyinfoapp.data.remote.data_transfer_object.TeamMember
+import id.slava.nt.cryptocurrencyinfoapp.data.remote.retrofit.data_transfer_object.TeamMember
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle

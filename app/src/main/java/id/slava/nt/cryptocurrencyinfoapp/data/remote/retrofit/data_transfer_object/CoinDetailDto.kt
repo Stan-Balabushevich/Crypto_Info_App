@@ -1,11 +1,9 @@
-package id.slava.nt.cryptocurrencyinfoapp.data.remote.data_transfer_object
+package id.slava.nt.cryptocurrencyinfoapp.data.remote.retrofit.data_transfer_object
 
 
 import com.google.gson.annotations.SerializedName
 import id.slava.nt.cryptocurrencyinfoapp.data.local.data_base_object.CoinDetailEntity
-import id.slava.nt.cryptocurrencyinfoapp.data.local.data_base_object.CoinEntity
 import id.slava.nt.cryptocurrencyinfoapp.domain.model.CoinDetail
-import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.toRealmList
 
 data class CoinDetailDto(

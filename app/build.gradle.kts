@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     // for ktor
-//    id ("org.jetbrains.kotlin.plugin.serialization")
+    id ("org.jetbrains.kotlin.plugin.serialization")
     id ("dagger.hilt.android.plugin")
     kotlin("kapt")
     id("io.realm.kotlin")
@@ -72,8 +72,10 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    // serialization-json for Retrofit
     implementation ("com.google.code.gson:gson:2.10.1")
 
+    // Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:okhttp:5.0.0-alpha.12")
@@ -88,6 +90,18 @@ dependencies {
 
     // Realm db
     implementation("io.realm.kotlin:library-base:1.11.0")
+
+
+    // Ktor
+    implementation ("io.ktor:ktor-client-core:2.3.8")
+    implementation ("io.ktor:ktor-client-android:2.3.8")
+    implementation ("io.ktor:ktor-client-serialization:2.3.8")
+    implementation ("io.ktor:ktor-client-content-negotiation:2.3.8")
+    implementation ("io.ktor:ktor-client-logging:2.3.8")
+    implementation ("ch.qos.logback:logback-classic:1.2.3")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.6")
+
+//    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 
 
 }
