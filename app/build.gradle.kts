@@ -2,10 +2,11 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     // for ktor
-    id ("org.jetbrains.kotlin.plugin.serialization")
+//    id ("org.jetbrains.kotlin.plugin.serialization")
     id ("dagger.hilt.android.plugin")
     kotlin("kapt")
     id("io.realm.kotlin")
+    id("de.mannodermaus.android-junit5")
 }
 
 android {
@@ -54,6 +55,8 @@ android {
     }
 }
 
+val junitJupiterVersion by extra("5.10.2")
+
 dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -64,11 +67,6 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
@@ -102,6 +100,29 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.6")
 
 //    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+
+    // Test
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+
+    testImplementation ("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testImplementation ("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
+
+    testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.28.0")
+//    testImplementation("io.mockk:mockk:1.13.9")
+    testImplementation("com.squareup.okhttp3:mockwebserver:5.0.0-alpha.12")
+
+//     Android test
+//    androidTestImplementation ("io.mockk:mockk-android:1.13.9")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+
+
 
 
 }

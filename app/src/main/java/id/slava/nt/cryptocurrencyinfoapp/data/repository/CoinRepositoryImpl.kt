@@ -64,7 +64,7 @@ class CoinRepositoryImpl @Inject constructor(private val api: CoinPaprikaApi,
             }
 
         } catch(e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+            emit(Resource.Error( "HttpException error occurred"))
         } catch(e: IOException) {
             emit(Resource.Error("Couldn't reach server. Check your internet connection."))
         }
@@ -103,7 +103,7 @@ class CoinRepositoryImpl @Inject constructor(private val api: CoinPaprikaApi,
             val coin = ktorClient.getCoinById(coinId).toCoinDetail()
             emit(Resource.Success(coin))
         } catch(e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
+            emit(Resource.Error(e.localizedMessage ?: "Server response error"))
         } catch(e: IOException) {
             emit(Resource.Error("Couldn't reach server. Check your internet connection."))
         }
