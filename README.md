@@ -26,11 +26,12 @@ This app is based on Clean Architecture guidelines, which allows for a scalable,
 1. Clone the repository:
    ```bash
    git clone https://github.com/Stan-Balabushevich/Crypto_Info_App.git
-       Open the project in Android Studio or your preferred IDE.
 
-2. Build the project. Make sure to sync all Gradle files and download all the required dependencies.
+2. Open the project in Android Studio or your preferred IDE.
 
-3. Run the application on an emulator or physical device.
+3. Build the project. Make sure to sync all Gradle files and download all the required dependencies.
+
+4. Run the application on an emulator or physical device.
 
 ## Testing
 
