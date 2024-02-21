@@ -122,7 +122,9 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
 
-
+// Mockito
+    testImplementation ("org.mockito:mockito-core:4.9.0")
+    androidTestImplementation ("org.mockito:mockito-android:4.0.0")
 
 
 }

@@ -98,8 +98,8 @@ class CoinRepositoryImpl @Inject constructor(private val api: CoinPaprikaApi,
 
     // Ktor
     override suspend fun getCoinById(coinId: String): Flow<Resource<CoinDetail>> = flow {
+        emit(Resource.Loading())
         try {
-            emit(Resource.Loading())
             val coin = ktorClient.getCoinById(coinId).toCoinDetail()
             emit(Resource.Success(coin))
         } catch(e: HttpException) {
