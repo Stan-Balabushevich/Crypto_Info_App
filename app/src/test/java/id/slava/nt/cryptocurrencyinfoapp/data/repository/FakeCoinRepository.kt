@@ -1,6 +1,8 @@
 package id.slava.nt.cryptocurrencyinfoapp.data.repository
 
 import id.slava.nt.cryptocurrencyinfoapp.common.Resource
+import id.slava.nt.cryptocurrencyinfoapp.util.coin
+import id.slava.nt.cryptocurrencyinfoapp.util.coinDetail
 import id.slava.nt.cryptocurrencyinfoapp.domain.model.Coin
 import id.slava.nt.cryptocurrencyinfoapp.domain.model.CoinDetail
 import id.slava.nt.cryptocurrencyinfoapp.domain.repository.CoinRepository
@@ -10,8 +12,8 @@ import kotlinx.coroutines.flow.flow
 
 class FakeCoinRepository: CoinRepository {
 
-    private val coins = mutableListOf<Coin>()
-    private var coinDetails = mutableMapOf<String, CoinDetail>()
+    val coins = mutableListOf<Coin>()
+    var coinDetail  = coinDetail()
     var shouldReturnError = false
 
 //    fun addCoins(vararg newCoins: Coin) {
@@ -22,14 +24,10 @@ class FakeCoinRepository: CoinRepository {
         coins.addAll(newCoins)
     }
 
-    fun setCoinDetail(coinId: String, coinDetail: CoinDetail) {
-        coinDetails[coinId] = coinDetail
-    }
-
     override suspend fun getCoins(): Flow<Resource<List<Coin>>> = flow {
         emit(Resource.Loading())
 
-        delay(2000)
+        delay(200)
 
         if (shouldReturnError) {
             emit(Resource.Error("Test error"))
@@ -39,6 +37,7 @@ class FakeCoinRepository: CoinRepository {
     }
 
     override suspend fun getCoinsDB(): Flow<Resource<List<Coin>>> = flow {
+        emit(Resource.Loading())
         if (shouldReturnError) {
             emit(Resource.Error("Test error"))
         } else {
@@ -47,16 +46,21 @@ class FakeCoinRepository: CoinRepository {
     }
 
     override suspend fun getCoinById(coinId: String): Flow<Resource<CoinDetail>> = flow {
+        emit(Resource.Loading())
         if (shouldReturnError) {
             emit(Resource.Error("Test error"))
         } else {
-            coinDetails[coinId]?.let {
-                emit(Resource.Success(it))
-            } ?: emit(Resource.Error("Coin not found"))
+
+                emit(Resource.Success(coinDetail))
         }
     }
 
     override suspend fun saveCoinsLocally() {
-        // Implementation for saving coins, if needed for testing
+        val dbCoins = (1..10).map {
+            coin().copy(
+                id = it.toString()
+            )
+        }
+        coins.addAll(dbCoins)
     }
 }

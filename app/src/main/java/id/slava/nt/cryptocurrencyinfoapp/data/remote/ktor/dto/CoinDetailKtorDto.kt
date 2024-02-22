@@ -38,7 +38,7 @@ data class CoinDetailKtorDto(
     @SerialName("open_source")
     val openSource: Boolean?,
     @SerialName("org_structure")
-    val orgStructure: String?,
+    val orgStructure: String? = "",
     @SerialName("proof_type")
     val proofType: String?,
     @SerialName("rank")

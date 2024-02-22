@@ -1,14 +1,11 @@
-package id.slava.nt.cryptocurrencyinfoapp.data
+package id.slava.nt.cryptocurrencyinfoapp.util
 
 import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.dto.CoinDetailKtorDto
 import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.dto.Links
-import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.dto.LinksExtended
-import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.dto.Tag
-import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.dto.TeamKtorMember
 import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.dto.Whitepaper
 import id.slava.nt.cryptocurrencyinfoapp.data.remote.retrofit.data_transfer_object.CoinDto
 import id.slava.nt.cryptocurrencyinfoapp.domain.model.Coin
-import kotlinx.serialization.SerialName
+import id.slava.nt.cryptocurrencyinfoapp.domain.model.CoinDetail
 
 fun coin(): Coin =
     Coin(
@@ -28,6 +25,18 @@ fun coinDto(): CoinDto =
         rank = 1,
         symbol = "BTC",
         type = "cryptocurrency"
+    )
+
+fun coinDetail(): CoinDetail =
+    CoinDetail(
+        coinId = "",
+        name = "",
+        description = "",
+        symbol = "",
+        rank = 0,
+        isActive = false,
+        tags = emptyList(),
+        team = emptyList()
     )
 
  fun coinDetailKtorDto(): CoinDetailKtorDto =

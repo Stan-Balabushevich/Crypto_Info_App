@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     // for ktor
-//    id ("org.jetbrains.kotlin.plugin.serialization")
+    id ("org.jetbrains.kotlin.plugin.serialization")
     id ("dagger.hilt.android.plugin")
     kotlin("kapt")
     id("io.realm.kotlin")
@@ -99,7 +99,7 @@ dependencies {
     implementation ("ch.qos.logback:logback-classic:1.2.3")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.6")
 
-//    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 
     // Test
     testImplementation("junit:junit:4.13.2")
@@ -126,5 +126,10 @@ dependencies {
     testImplementation ("org.mockito:mockito-core:4.9.0")
     androidTestImplementation ("org.mockito:mockito-android:4.0.0")
 
+    // testing flows
+    testImplementation ("app.cash.turbine:turbine:0.12.1")
+    androidTestImplementation ("app.cash.turbine:turbine:0.12.1")
 
 }
+
+

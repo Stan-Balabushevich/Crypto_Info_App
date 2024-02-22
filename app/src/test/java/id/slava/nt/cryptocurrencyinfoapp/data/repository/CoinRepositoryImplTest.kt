@@ -5,8 +5,8 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import com.google.gson.Gson
 import id.slava.nt.cryptocurrencyinfoapp.common.Resource
-import id.slava.nt.cryptocurrencyinfoapp.data.coinDetailKtorDto
-import id.slava.nt.cryptocurrencyinfoapp.data.coinDto
+import id.slava.nt.cryptocurrencyinfoapp.util.coinDetailKtorDto
+import id.slava.nt.cryptocurrencyinfoapp.util.coinDto
 import id.slava.nt.cryptocurrencyinfoapp.data.local.data_base_object.CoinEntity
 import id.slava.nt.cryptocurrencyinfoapp.data.local.data_base_object.toCoin
 import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.CoinKtorApi
@@ -16,7 +16,6 @@ import id.slava.nt.cryptocurrencyinfoapp.data.remote.retrofit.data_transfer_obje
 import id.slava.nt.cryptocurrencyinfoapp.domain.database.CoinDatabase
 import id.slava.nt.cryptocurrencyinfoapp.domain.model.Coin
 import id.slava.nt.cryptocurrencyinfoapp.domain.model.CoinDetail
-import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
@@ -65,11 +64,15 @@ class CoinRepositoryImplTest{
 
     }
 
-    private val testCoinsEntities = listOf(
-        CoinEntity().apply { id = "123" },
-        CoinEntity().apply { id = "456" },
-        CoinEntity().apply { id = "789" }
-    )
+//    private val testCoinsEntities = listOf(
+//        CoinEntity().apply { id = "123" },
+//        CoinEntity().apply { id = "456" },
+//        CoinEntity().apply { id = "789" }
+//    )
+
+    private val testCoinsEntities = (1..10).map {
+        CoinEntity().apply { id = "0$it" }
+    }
 
     private val testCoinsDto = listOf(
         coinDto().copy(id = "123" ),
@@ -187,7 +190,7 @@ class CoinRepositoryImplTest{
 
         val coinId = "btc-bitcoin"
         val errorMessage = "Server response error"
-        val httpException = Mockito.mock(HttpException::class.java)
+        val httpException = mock(HttpException::class.java)
 
         // Mock the behavior of the ktorClient to throw an HttpException
         Mockito.`when`(fakeKtorClient.getCoinById(coinId)).thenThrow(httpException)

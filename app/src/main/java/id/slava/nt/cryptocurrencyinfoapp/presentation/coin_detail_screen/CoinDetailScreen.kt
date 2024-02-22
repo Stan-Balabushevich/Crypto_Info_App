@@ -18,6 +18,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -35,8 +36,10 @@ fun CoinDetailScreen(
     viewModel: CoinDetailViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
+    val stateFlow = viewModel.stateFlow.collectAsState().value
+
     Box(modifier = Modifier.fillMaxSize()) {
-        state.coin?.let { coin ->
+        stateFlow.coin?.let { coin ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(20.dp)
@@ -102,9 +105,9 @@ fun CoinDetailScreen(
                 }
             }
         }
-        if(state.error.isNotBlank()) {
+        if(stateFlow.error.isNotBlank()) {
             Text(
-                text = state.error,
+                text = stateFlow.error,
                 color = MaterialTheme.colorScheme.error,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -113,7 +116,7 @@ fun CoinDetailScreen(
                     .align(Alignment.Center)
             )
         }
-        if(state.isLoading) {
+        if(stateFlow.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     }

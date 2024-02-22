@@ -1,7 +1,7 @@
 package id.slava.nt.cryptocurrencyinfoapp.domain.use_case
 
 import id.slava.nt.cryptocurrencyinfoapp.common.Resource
-import id.slava.nt.cryptocurrencyinfoapp.data.coin
+import id.slava.nt.cryptocurrencyinfoapp.util.coin
 import id.slava.nt.cryptocurrencyinfoapp.data.repository.FakeCoinRepository
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList

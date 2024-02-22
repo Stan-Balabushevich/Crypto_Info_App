@@ -9,6 +9,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.slava.nt.cryptocurrencyinfoapp.common.Constants
 import id.slava.nt.cryptocurrencyinfoapp.common.Resource
 import id.slava.nt.cryptocurrencyinfoapp.domain.use_case.CoinUseCases
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,9 +20,13 @@ class CoinDetailViewModel @Inject constructor(
     private val useCases: CoinUseCases):
     ViewModel() {
 
-
-    private val _state = mutableStateOf(CoinState())
+    //if your state is only being observed and modified within the Composables, using MutableState<T> as you've done is perfectly fine.
+    // If you foresee a need for more complex state management or sharing state across different parts of your app, consider using StateFlow<T>.
+        private val _state = mutableStateOf(CoinState())
     val state: State<CoinState> = _state
+
+    private val _stateFlow = MutableStateFlow(CoinState())
+    val stateFlow: StateFlow<CoinState> = _stateFlow
 
     init {
         savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { id ->
@@ -34,15 +40,15 @@ class CoinDetailViewModel @Inject constructor(
             useCases.getCoinById(coinId).collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _state.value = CoinState(coin = result.data)
+                        _stateFlow.value = CoinState(coin = result.data)
                     }
                     is Resource.Error -> {
-                        _state.value = CoinState(
+                        _stateFlow.value = CoinState(
                             error = result.message ?: "An unexpected error occurred"
                         )
                     }
                     is Resource.Loading -> {
-                        _state.value = CoinState(isLoading = true)
+                        _stateFlow.value = CoinState(isLoading = true)
                     }
                 }
             }

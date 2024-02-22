@@ -1,6 +1,6 @@
 package id.slava.nt.cryptocurrencyinfoapp.data.repository
 
-import id.slava.nt.cryptocurrencyinfoapp.data.coinDetailKtorDto
+import id.slava.nt.cryptocurrencyinfoapp.util.coinDetailKtorDto
 import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.CoinKtorApi
 import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.dto.CoinDetailKtorDto
 import id.slava.nt.cryptocurrencyinfoapp.data.remote.ktor.dto.CoinKtorDto
