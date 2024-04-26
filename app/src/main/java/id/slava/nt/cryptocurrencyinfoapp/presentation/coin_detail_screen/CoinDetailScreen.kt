@@ -14,32 +14,34 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import id.slava.nt.cryptocurrencyinfoapp.domain.model.CoinDetail
 import id.slava.nt.cryptocurrencyinfoapp.presentation.coin_detail_screen.components.CoinTag
 import id.slava.nt.cryptocurrencyinfoapp.presentation.coin_detail_screen.components.TeamListItem
+import id.slava.nt.cryptocurrencyinfoapp.presentation.theme.CryptoInfoTheme
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CoinDetailScreen(
-    viewModel: CoinDetailViewModel = hiltViewModel()
+//    viewModel: CoinDetailViewModel = hiltViewModel()
+    coinState: CoinState
 ) {
-    val state = viewModel.state.value
-    val stateFlow = viewModel.stateFlow.collectAsState().value
+//    val state = viewModel.state.value
+//    val stateFlow = viewModel.stateFlow.collectAsState().value
 
     Box(modifier = Modifier.fillMaxSize()) {
-        stateFlow.coin?.let { coin ->
+        coinState.coin?.let { coin ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(20.dp)
@@ -101,13 +103,13 @@ fun CoinDetailScreen(
                             .fillMaxWidth()
                             .padding(10.dp)
                     )
-                    Divider()
+                    HorizontalDivider()
                 }
             }
         }
-        if(stateFlow.error.isNotBlank()) {
+        if(coinState.error.isNotBlank()) {
             Text(
-                text = stateFlow.error,
+                text = coinState.error,
                 color = MaterialTheme.colorScheme.error,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -116,8 +118,31 @@ fun CoinDetailScreen(
                     .align(Alignment.Center)
             )
         }
-        if(stateFlow.isLoading) {
+        if(coinState.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     }
+}
+
+@Preview(
+    showSystemUi = true
+)
+@Composable
+private fun CoinDetailScreenPreview() {
+    CryptoInfoTheme {
+        CoinDetailScreen(coinState = CoinState(
+            coin = CoinDetail(
+                coinId = "di345",
+                name = "Bitcoin",
+                description = "First crypto",
+                symbol = "B",
+                rank = 1,
+                isActive = true,
+                tags = listOf("fhgdfh", "dhgdfh", "dgfwstg"),
+                team = emptyList()
+                )
+           )
+        )
+    }
+
 }
