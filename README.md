@@ -42,7 +42,8 @@ The application includes comprehensive unit tests to ensure the reliability and 
 - **Fakes and Data Generators:** Utilized in place of real implementations for a more controlled and isolated testing environment, especially for testing the interactions with the Realm database.
 
 To run the tests, navigate to the test source set and execute the tests via Android Studio or using the Gradle command line.
-Dependencies
+
+## Dependencies
 
 This project uses the following major dependencies:
 
