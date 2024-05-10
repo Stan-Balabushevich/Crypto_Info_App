@@ -10,6 +10,7 @@ import id.slava.nt.cryptocurrencyinfoapp.data.remote.retrofit.data_transfer_obje
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 
@@ -33,4 +34,10 @@ fun TeamListItem(
             fontStyle = FontStyle.Italic
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TeamListItemPreview() {
+    TeamListItem(teamMember = TeamMember(name = "Slava", position = "Android Developer", id = "1"))
 }

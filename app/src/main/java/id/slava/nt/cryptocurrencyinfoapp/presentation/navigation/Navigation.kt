@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import id.slava.nt.cryptocurrencyinfoapp.common.Constants
-import id.slava.nt.cryptocurrencyinfoapp.presentation.coin_detail_screen.CoinDetailScreen
+import id.slava.nt.cryptocurrencyinfoapp.presentation.coin_detail_screen.DetailScreen
 import id.slava.nt.cryptocurrencyinfoapp.presentation.coins_list_screen.CoinListScreen
 
 @Composable
@@ -34,7 +34,8 @@ fun Navigation() {
                 })
         ) {
 
-            CoinDetailScreen()
+//            CoinDetailScreen()
+            DetailScreen()
 
         }
     }

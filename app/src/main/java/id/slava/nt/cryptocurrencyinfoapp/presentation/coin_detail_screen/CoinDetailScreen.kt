@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,18 +25,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import id.slava.nt.cryptocurrencyinfoapp.domain.model.CoinDetail
 import id.slava.nt.cryptocurrencyinfoapp.presentation.coin_detail_screen.components.CoinTag
 import id.slava.nt.cryptocurrencyinfoapp.presentation.coin_detail_screen.components.TeamListItem
 
+
+@Composable
+fun DetailScreen(
+    viewModel: CoinDetailViewModel = hiltViewModel()
+){
+    CoinDetailScreen(stateFlow = viewModel.stateFlow.collectAsState().value)
+}
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CoinDetailScreen(
-    viewModel: CoinDetailViewModel = hiltViewModel()
+//    viewModel: CoinDetailViewModel = hiltViewModel()
+
+    stateFlow: CoinState,
 ) {
-    val state = viewModel.state.value
-    val stateFlow = viewModel.stateFlow.collectAsState().value
+//    val state = viewModel.state.value
+//    val stateFlow = viewModel.stateFlow.collectAsState().value
 
     Box(modifier = Modifier.fillMaxSize()) {
         stateFlow.coin?.let { coin ->
@@ -101,7 +112,7 @@ fun CoinDetailScreen(
                             .fillMaxWidth()
                             .padding(10.dp)
                     )
-                    Divider()
+                    HorizontalDivider()
                 }
             }
         }
@@ -120,4 +131,15 @@ fun CoinDetailScreen(
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CoinDetailScreenPreview() {
+    CoinDetailScreen(
+        stateFlow = CoinState(coin =
+        CoinDetail(   coinId ="1", name = "Bitcoin",
+            description = "Bitcoin is a cryptocurrency and worldwide payment system.",
+            symbol = "BTC", rank = 1, isActive = true, tags = listOf(), team = listOf() ))
+    )
 }
