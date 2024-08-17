@@ -12,7 +12,7 @@ class CoinKtorImpl(private val client: HttpClient): CoinKtorApi {
     override suspend fun getCoins(): List<CoinKtorDto>  {
         return client.get(Constants.COINS).body()
         // Query with parameters
-//        client.get(Constants.COINS){
+//       return  client.get(Constants.COINS){
 //            parameter("category", "some parameter String or Int")
 //            parameter("limit", 10)
 //        }.body()

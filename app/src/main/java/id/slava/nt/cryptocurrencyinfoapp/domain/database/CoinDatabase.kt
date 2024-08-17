@@ -9,4 +9,6 @@ interface CoinDatabase {
 
     suspend fun saveCoins(coins: List<CoinEntity>)
 
+    suspend fun getChunkedCoins(limit: Int, offset: Int):  Flow<List<CoinEntity>>
+
 }

@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.slava.nt.cryptocurrencyinfoapp.common.Resource
 import id.slava.nt.cryptocurrencyinfoapp.domain.use_case.CoinUseCases
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -19,7 +18,7 @@ class CoinsListViewModel @Inject constructor(
 ): ViewModel() {
 
 
-    //if your state is only being observed and modified within the Composables, using MutableState<T> as you've done is perfectly fine.
+    //if your state is only being observed and modified within the Composables, using MutableState<T>  is perfectly fine.
     // If you foresee a need for more complex state management or sharing state across different parts of your app, consider using StateFlow<T>.
     private val _state = mutableStateOf(CoinListState())
     val state: State<CoinListState> = _state
@@ -28,10 +27,6 @@ class CoinsListViewModel @Inject constructor(
     val stateFlow: StateFlow<CoinListState> = _stateFlow
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            useCases.saveCoinsLocal()
-        }
-
         getCoins()
     }
 

@@ -3,13 +3,11 @@ package id.slava.nt.cryptocurrencyinfoapp.data.local.data_base_object
 import id.slava.nt.cryptocurrencyinfoapp.domain.model.Coin
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
-import org.mongodb.kbson.ObjectId
 
 
 class CoinEntity: RealmObject{
 
     @PrimaryKey
-    var _id: ObjectId = ObjectId()
     var id: String = ""
     var isActive: Boolean = false
     var isNew: Boolean = false

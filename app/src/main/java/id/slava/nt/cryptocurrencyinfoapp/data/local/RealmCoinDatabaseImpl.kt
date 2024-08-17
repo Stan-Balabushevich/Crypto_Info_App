@@ -19,6 +19,23 @@ class RealmCoinDatabaseImpl @Inject constructor(private val realm: Realm) : Coin
             }
     }
 
+    override suspend fun getChunkedCoins(limit: Int, offset: Int): Flow<List<CoinEntity>> {
+        // Query all coins, and then skip and take the needed chunk
+        return realm
+            .query<CoinEntity>()
+            .asFlow()
+            .map { result ->
+                // Convert the result to a list and then get the subList
+                val coinList = result.list.toList()
+                val end = minOf(offset + limit, coinList.size)
+                if (offset < end) {
+                    coinList.subList(offset, end)
+                } else {
+                    emptyList()
+                }
+            }
+    }
+
     override suspend fun saveCoins(coins: List<CoinEntity>) {
         realm.write {
             coins.forEach {

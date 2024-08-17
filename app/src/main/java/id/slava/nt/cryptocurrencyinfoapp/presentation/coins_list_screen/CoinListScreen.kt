@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -34,7 +35,7 @@ fun CoinListScreen(
     //if your state is only being observed and modified within the Composables, using MutableState<T> is perfectly fine.
     // If you foresee a need for more complex state management or sharing state across different parts of your app, consider using StateFlow<T>.
     val state = viewModel.state.value
-    val stateFlow = viewModel.stateFlow.collectAsState().value
+    val stateFlow by viewModel.stateFlow.collectAsState()
     val context = LocalContext.current
 
     Scaffold(
